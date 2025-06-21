@@ -4,6 +4,9 @@ import tseslint from 'typescript-eslint';
 
 export default defineConfig([
   {
+    ignores: ['src/generated/**'],
+  },
+  {
     files: ['**/*.ts'],
     languageOptions: {
       parser: tseslint.parser,
@@ -24,12 +27,10 @@ export default defineConfig([
       'no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
       'no-undef': 'off',
       '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
-
       quotes: ['error', 'single'],
       semi: ['error', 'always'],
       indent: ['error', 2],
       'comma-dangle': ['error', 'always-multiline'],
-
       '@typescript-eslint/explicit-function-return-type': 'off',
       '@typescript-eslint/no-explicit-any': 'warn',
     },

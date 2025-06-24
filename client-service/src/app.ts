@@ -1,4 +1,5 @@
 import fastify from 'fastify';
+import { defineRoutes } from './routes';
 
 const app = fastify({
   logger: true,
@@ -6,7 +7,7 @@ const app = fastify({
 
 export const start = async () => {
   try {
-    app.log.info('server is running');
+    defineRoutes(app);
     await app.listen({ port: 5867});
   } catch (error) {
     app.log.error(error);

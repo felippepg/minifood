@@ -14,7 +14,7 @@ export const defineRoutes = (server: FastifyInstance): void => {
     return reply.code(result.statusCode).send(result);
   });
 
-  server.get('/api/v1/client/:id', async(request: FastifyRequest<{ Params: { id: number } }>, reply) => {
+  server.get('/api/v1/client/:id', async(request: FastifyRequest<{ Params: { id: string } }>, reply) => {
     const { id } = request.params;
     const result = await clientsController.getClientById(id);
 
@@ -43,14 +43,15 @@ export const defineRoutes = (server: FastifyInstance): void => {
     return reply.code(result.statusCode).send(result);
   });
 
-  server.put('/api/v1/client/update', async(request: FastifyRequest<{ Body:IClient }>, reply) => {
+  server.patch('/api/v1/client/update/:id', async(request: FastifyRequest<{Params: { id: string }, Body:IClient }>, reply) => {
     const data = request.body;
-    const result = await clientsController.updateClient(data);
+    const { id } = request.params;
+    const result = await clientsController.updateClient(id, data);
 
     return reply.code(result.statusCode).send(result);
   });
 
-  server.delete('/api/v1/client/delete/:id', async(request: FastifyRequest<{ Params: { id: number } }>, reply) => {
+  server.delete('/api/v1/client/delete/:id', async(request: FastifyRequest<{ Params: { id: string } }>, reply) => {
     const { id } = request.params;
     const result = await clientsController.deleteClient(id);
 

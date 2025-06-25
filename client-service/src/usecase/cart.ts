@@ -2,8 +2,9 @@ import { StatusCodes } from 'http-status-codes';
 import logger from 'src/infra/logger';
 import { ICart } from 'src/interfaces/cart';
 import { ICartItem } from 'src/interfaces/cartItem';
-import { createCartRepository, findCartByIdRepository } from 'src/repositories/cart.repository';
+import { createCartRepository, findCartByClientIdRepository, findCartByIdRepository } from 'src/repositories/cart.repository';
 import { createCartItemRepository } from 'src/repositories/cartItem.repository';
+import { handlePrismaError } from 'src/utils/prisma-erro-handler';
 
 export const createCartUseCase = async (cart: ICart) => {
   try {
@@ -46,4 +47,29 @@ export const createCartUseCase = async (cart: ICart) => {
     };
   }
 };
+
+export const findCartByClientIdUseCase = async (id: string) => {
+  try {
+      const idNumber = Number(id);
+    
+      if (isNaN(idNumber)) {
+        return {
+          success: false,
+          message: 'ID inválido',
+          code: 'CLIENTS_INVALID_ID',
+          statusCode: StatusCodes.BAD_REQUEST,
+        };
+      }
+      const cart = await findCartByClientIdRepository(idNumber)
+
+      if (!cart) {
+        return { success: true, data: null, statusCode: StatusCodes.NO_CONTENT };
+      }
+
+   return { success: true, data: cart, statusCode: StatusCodes.OK };
+  } catch (error) {
+    logger.error('error while fetching cart by id', error);
+    return handlePrismaError(error);
+  }
+}
 

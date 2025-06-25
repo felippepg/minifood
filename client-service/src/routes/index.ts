@@ -66,4 +66,15 @@ export const defineRoutes = (server: FastifyInstance): void => {
 
     return reply.status(result.statusCode).send(result)
   })
+
+  server.get('/api/v1/cart/client/:id', async(request: FastifyRequest<{ Params: { id: string } }>, reply) => {
+    const { id } = request.params;
+    const result = await cartController.findCartByClientId(id);
+
+    if (result.statusCode === 204) {
+      return reply.code(204).send();
+    }
+
+    return reply.code(result.statusCode).send(result);
+  });
 ;};

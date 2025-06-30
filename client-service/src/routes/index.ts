@@ -1,5 +1,7 @@
 import { FastifyInstance, FastifyRequest } from 'fastify';
+import { ICart } from 'src/interfaces/cart';
 import { IClient } from 'src/interfaces/client';
+import * as cartController from '../controllers/cart.controller';
 import * as clientsController from '../controllers/clients.controller';
 
 
@@ -56,5 +58,23 @@ export const defineRoutes = (server: FastifyInstance): void => {
     const result = await clientsController.deleteClient(id);
 
     return reply.code(result.statusCode).send();
-  })
+  });
+
+  server.post('/api/v1/cart/create', async(request: FastifyRequest<{ Body: ICart}>, reply) => {
+    const data = request.body;
+    const result = await cartController.create(data);
+
+    return reply.status(result.statusCode).send(result);
+  });
+
+  server.get('/api/v1/cart/client/:id', async(request: FastifyRequest<{ Params: { id: string } }>, reply) => {
+    const { id } = request.params;
+    const result = await cartController.findCartByClientId(id);
+
+    if (result.statusCode === 204) {
+      return reply.code(204).send();
+    }
+
+    return reply.code(result.statusCode).send(result);
+  });
   ;};

@@ -1,5 +1,5 @@
-import { prisma } from "src/infra/client";
-import { ICartItem } from "src/interfaces/cartItem";
+import { prisma } from 'src/infra/client';
+import { ICartItem } from 'src/interfaces/cartItem';
 
 export const createCartItemRepository = async (cartItem: ICartItem) => {
   return await prisma.cartItem.create({
@@ -8,7 +8,7 @@ export const createCartItemRepository = async (cartItem: ICartItem) => {
       price: cartItem.price,
       productName: cartItem.productName,
       quantity: cartItem.quantity,
-      notes: cartItem.notes
-    }
-  })
-}
+      notes: cartItem.notes,
+    },
+  });
+};

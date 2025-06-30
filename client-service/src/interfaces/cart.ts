@@ -1,7 +1,7 @@
-import { ICartItem } from "./cartItem";
+import { ICartItem } from './cartItem';
 
 export enum CardStatus {
-    ACTIVE,
+  ACTIVE,
   ABANDONED,
   CHECKEDOUT
 }
@@ -10,3 +10,4 @@ export interface ICart {
   client_id: number,
   cart_item: ICartItem[]
 }
+

@@ -58,14 +58,14 @@ export const defineRoutes = (server: FastifyInstance): void => {
     const result = await clientsController.deleteClient(id);
 
     return reply.code(result.statusCode).send();
-  })
+  });
 
   server.post('/api/v1/cart/create', async(request: FastifyRequest<{ Body: ICart}>, reply) => {
-    const data = request.body
+    const data = request.body;
     const result = await cartController.create(data);
 
-    return reply.status(result.statusCode).send(result)
-  })
+    return reply.status(result.statusCode).send(result);
+  });
 
   server.get('/api/v1/cart/client/:id', async(request: FastifyRequest<{ Params: { id: string } }>, reply) => {
     const { id } = request.params;
@@ -77,4 +77,4 @@ export const defineRoutes = (server: FastifyInstance): void => {
 
     return reply.code(result.statusCode).send(result);
   });
-;};
+  ;};
